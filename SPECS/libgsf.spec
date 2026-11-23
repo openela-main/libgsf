@@ -6,12 +6,16 @@
 
 Name: libgsf
 Version: 1.14.53
-Release: 2%{?dist}
+Release: 2%{?dist}.1
 Summary: GNOME Structured File library
 
 License: LGPL-2.1-only
 URL:     https://gitlab.gnome.org/GNOME/libgsf/
 Source:  https://download.gnome.org/sources/%{name}/1.14/%{name}-%{version}.tar.xz
+
+# https://issues.redhat.com/browse/RHEL-291565
+# https://gitlab.gnome.org/GNOME/libgsf/-/commit/a8e25560b74f84c3f86df6ca0ac59195fa5af68a
+Patch0: libgsf-1.14.53-CVE-2026-116124.patch
 
 BuildRequires: bzip2-devel
 BuildRequires: chrpath
@@ -173,6 +177,11 @@ find %{buildroot} -name '*.la' -delete -print
 %endif
 
 %changelog
+* Mon Oct 26 2026 RHEL Packaging Agent <redhat-ymir-agent@redhat.com> - 1.14.53-2.1
+- CVE-2026-116124 libgsf: libgsf: Arbitrary code execution via heap-based buffer overflow in OLE2 parser
+  heap-based buffer overflow in OLE2 parser
+  Resolves: RHEL-291565
+
 * Wed Nov 20 2024 Carlos Garnacho <cgarnach@redhat.com> - 1.14.53-2
 - Synchronize to packaging changes in Fedora 40:
   Resolves: RHEL-66920
