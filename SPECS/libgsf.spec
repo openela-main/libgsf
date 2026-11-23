@@ -1,10 +1,13 @@
 Summary: GNOME Structured File library
 Name: libgsf
 Version: 1.14.47
-Release: 5%{?dist}
+Release: 5%{?dist}.1
 License: LGPLv2
 Source: ftp://ftp.gnome.org/pub/GNOME/sources/%{name}/1.14/%{name}-%{version}.tar.xz
 URL: http://www.gnome.org/projects/libgsf/
+
+# https://gitlab.gnome.org/GNOME/libgsf/-/commit/a8e25560b74f84c3f86df6ca0ac59195fa5af68a
+Patch0: libgsf-1.14.47-CVE-2026-116124.patch
 
 BuildRequires: bzip2-devel
 BuildRequires: chrpath
@@ -34,6 +37,7 @@ libgsf.
 
 %prep
 %setup -q
+%patch -P 0 -p1
 
 %build
 %configure --disable-gtk-doc --disable-static --enable-introspection=yes \
@@ -79,6 +83,11 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_mandir}/man1/gsf-vba-dump.1*
 
 %changelog
+* Mon Oct 26 2026 RHEL Packaging Agent <redhat-ymir-agent@redhat.com> - 1.14.47-5.1
+- CVE-2026-116124 libgsf: libgsf: Arbitrary code execution via heap-based buffer overflow in OLE2 parser
+  buffer overflow in OLE2 parser
+  Resolves: RHEL-291573
+
 * Mon Aug 09 2021 Mohan Boddu <mboddu@redhat.com> - 1.14.47-5
 - Rebuilt for IMA sigs, glibc 2.34, aarch64 flags
   Related: rhbz#1991688
